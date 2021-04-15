@@ -1,13 +1,13 @@
 name: "Veracode scan locally"
-description: "Download Veracode jar, scan it locally, and provision the output result.json"
+description: "Download Veracode jar, scan it locally, and provision the output in JSON format"
 inputs:
-  veracode-id:
+  id:
     description: The veracode API ID
     required: true
-  veracode-secret:
+  secret:
     description: The veracode API secret
     required: true
-  veracode-severity:
+  severity:
     description: The severity to fail this run
     required: false
     default: Very High, High
@@ -22,15 +22,15 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+    - run: curl -s -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
       shell: bash
     - run: unzip -o pipeline-scan-LATEST.zip
       shell: bash
     - run: |
         java -jar pipeline-scan.jar \
-          --veracode_api_id ${{ inputs.veracode-id }} \
-          --veracode_api_key ${{ inputs.veracode-secret }} \
-          --fail_on_severity="${{ inputs.veracode-severity }}" \
+          --veracode_api_id ${{ inputs.id }} \
+          --veracode_api_key ${{ inputs.secret }} \
+          --fail_on_severity="${{ inputs.severity }}" \
           --file ${{inputs.input-file}} \
           --json_output_file ${{inputs.output-file}}
       shell: bash
