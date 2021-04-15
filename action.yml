@@ -1,5 +1,8 @@
 name: "Veracode scan locally"
 description: "Download Veracode jar, scan it locally, and provision the output in JSON format"
+branding:
+  icon: filter
+  color: green
 inputs:
   id:
     description: The veracode API ID
